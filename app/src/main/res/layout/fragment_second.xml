@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.fragments.SecondFragment"
+    android:layout_marginTop="40dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="100dp">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/img" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+
+                    android:text="Mohamed Bellaala"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/jop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Android developer"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="3dp"
+                        android:layout_marginHorizontal="6dp"
+                        android:background="@drawable/draw_circle_solid" />
+
+                    <TextView
+                        android:id="@+id/country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Morocco"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="?attr/colorSurface"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="15dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="lqksjdlkqsjdlkjqslkjdlkqsjdlkjklsqjdlkjsqlkjdl"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/name_quote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:gravity="end"
+                    android:text="― Me"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/fragment_2_getintouch"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+212 706709258"
+                android:textColor="@color/c_phone"
+                android:textSize="17sp"
+                app:chipBackgroundColor="@color/c_phone_bg"
+                app:chipEndPadding="15dp"
+
+
+                app:chipIcon="@drawable/ic_phone"
+                app:chipIconTint="@color/c_phone"
+                app:chipStartPadding="15dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/fax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="55555555"
+                android:textColor="@color/c_fax"
+                android:textSize="17sp"
+
+                app:chipBackgroundColor="@color/c_fax_bg"
+                app:chipEndPadding="15dp"
+
+                app:chipIcon="@drawable/ic_fax"
+                app:chipIconTint="@color/c_fax"
+                app:chipStartPadding="15dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mbellaala@sqli.com"
+                android:textColor="@color/c_email"
+                android:textSize="17sp"
+
+                app:chipBackgroundColor="@color/c_email_bg"
+                app:chipEndPadding="15dp"
+
+                app:chipIcon="@drawable/ic_email"
+                app:chipIconTint="@color/c_email"
+                app:chipStartPadding="15dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="somewhere"
+                android:textColor="@color/c_city"
+                android:textSize="17sp"
+
+                app:chipBackgroundColor="@color/c_city_bg"
+                app:chipEndPadding="15dp"
+
+                app:chipIcon="@drawable/ic_city"
+                app:chipIconTint="@color/c_city"
+                app:chipStartPadding="15dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </LinearLayout>
+</FrameLayout>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="20dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_1_title_about"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textColor="?attr/colorOnSurface"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/country_wrapper"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            app:boxStrokeWidth="0dp"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_1_hint_country"
+                android:id="@+id/country"
+                android:inputType="text"
+                android:textColor="?attr/colorOnSurface"
+                android:background="@drawable/draw_rect_rounded"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/city_wrapper"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_height="wrap_content"
+            app:boxStrokeWidth="0dp"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_1_hint_city"
+                android:id="@+id/city"
+                android:textColor="?attr/colorOnSurface"
+                android:inputType="text"
+                android:background="@drawable/draw_rect_rounded"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/job_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeWidth="0dp"
+        android:layout_marginTop="20dp"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fragment_1_hint_job"
+            android:textColor="?attr/colorOnSurface"
+            android:id="@+id/job"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/draw_rect_rounded"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bio_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxStrokeWidth="0dp"
+        android:layout_marginTop="20dp"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/fragment_1_hint_bio"
+            android:textColor="?attr/colorOnSurface"
+            android:id="@+id/bio"
+            android:inputType="textMultiLine"
+            android:background="@drawable/draw_rect_rounded"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/image"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        app:chipIcon="@drawable/ic_add_image"
+        app:chipIconVisible="true"
+        app:chipIconTint="?attr/colorOnSurface"
+        app:chipIconSize="30dp"
+        android:text="@string/fragment_1_hint_image"
+        app:chipCornerRadius="5dp"
+        app:chipBackgroundColor="@color/c_input"
+        android:textSize="17sp"
+        android:textColor="?attr/colorOnSurface"
+
+        app:iconStartPadding="10dp"
+        app:textEndPadding="10dp"
+        />
+
+    <TextView
+        android:textSize="16sp"
+        android:id="@+id/image_uri"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="image uri"
+        />
+
+</LinearLayout>

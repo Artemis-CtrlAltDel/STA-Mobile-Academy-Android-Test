@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="c_error">#e74c3c</color>
+    <color name="c_perms">#00cec9</color>
+    <color name="c_input">#26BDC3C7</color>
+
+    <color name="c_email">#fdcb6e</color>
+    <color name="c_email_bg">#1FFDCB6E</color>
+
+    <color name="c_phone">#00cec9</color>
+    <color name="c_phone_bg">#1F00CEC9</color>
+
+    <color name="c_fax">#0097e6</color>
+    <color name="c_fax_bg">#1F0097E6</color>
+
+    <color name="c_city">#8600E6</color>
+    <color name="c_city_bg">#1F8600E6</color>
+
+    <color name="c_abs_parent_bg_light">#f3f3f3</color>
+    <color name="c_abs_parent_bg_night">#171717</color>
+
+    <color name="c_primary">#3498db</color>
+</resources>
