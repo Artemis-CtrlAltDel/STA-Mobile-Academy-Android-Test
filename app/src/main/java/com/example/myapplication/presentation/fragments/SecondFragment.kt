@@ -39,7 +39,6 @@ class SecondFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         bindViews()
         handleActions()
 
-
         callIntent =
             Intent(Intent.ACTION_DIAL).apply { data = Uri.parse("tel:${binding.phone.text}") }
 
