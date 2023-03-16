@@ -40,16 +40,18 @@ class SecondFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         handleActions()
 
         callIntent =
-            Intent(Intent.ACTION_DIAL).apply { data = Uri.parse("tel:${binding.phone.text}") }
+            Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${binding.includeContact.phone.text}")
+            }
 
         emailIntent = Intent(Intent.ACTION_SEND)
 
         emailChooser = Intent.createChooser(
             emailIntent.apply {
                 type = "text/plain"
-                putExtra(Intent.EXTRA_EMAIL, binding.email.text)
+                putExtra(Intent.EXTRA_EMAIL, binding.includeContact.email.text)
             },
-            getString(R.string.fragment_2_intent_chooser_title, binding.email.text)
+            getString(R.string.fragment_2_intent_chooser_title, binding.includeContact.email.text)
         )
 
         return binding.root
@@ -65,46 +67,57 @@ class SecondFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         sharedViewModel.userDetails.observe(viewLifecycleOwner) {
             if (it == null) return@observe
 
-            it.image?.let { bitmap ->
-                Glide.with(requireContext()).load(bitmap).into(image)
-            } ?: run { Glide.with(requireContext()).load(R.drawable.img).into(image) }
-            name.text = getString(
-                R.string.fragment_2_name,
-                it.fname, it.lname
-            )
-            country.text = getString(
-                R.string.fragment_2_country,
-                it.country
-            )
-            bio.text = getString(
-                R.string.fragment_2_bio,
-                it.bio
-            )
-            nameQuote.text = getString(
-                R.string.fragment_2_name_quoted,
-                it.fname, it.lname
-            )
-            phone.text = getString(
-                R.string.fragment_2_phone,
-                it.phone
-            )
-            fax.text = getString(
-                R.string.fragment_2_fax,
-                it.fax
-            )
-            email.text = getString(
-                R.string.fragment_2_email,
-                it.email
-            )
-            city.text = getString(
-                R.string.fragment_2_city,
-                it.city
-            )
+            with(binding.includePrimaryDetails) {
+                it.image?.let { bitmap ->
+                    Glide.with(requireContext()).load(bitmap).into(image)
+                } ?: run {
+                    Glide.with(requireContext()).load(R.drawable.img).into(image)
+                }
+                name.text = getString(
+                    R.string.fragment_2_name,
+                    it.fname, it.lname
+                )
+                country.text = getString(
+                    R.string.fragment_2_country,
+                    it.country
+                )
+            }
+
+            with(binding.includeSecondaryDetails) {
+                bio.text = getString(
+                    R.string.fragment_2_bio,
+                    it.bio
+                )
+                nameQuote.text = getString(
+                    R.string.fragment_2_name_quoted,
+                    it.fname, it.lname
+                )
+            }
+
+            with(binding.includeContact) {
+                phone.text = getString(
+                    R.string.fragment_2_phone,
+                    it.phone
+                )
+                fax.text = getString(
+                    R.string.fragment_2_fax,
+                    it.fax
+                )
+                email.text = getString(
+                    R.string.fragment_2_email,
+                    it.email
+                )
+                city.text = getString(
+                    R.string.fragment_2_city,
+                    it.city
+                )
+            }
+
         }
     }
 
     private fun handleActions() {
-        binding.phone.setOnClickListener {
+        binding.includeContact.phone.setOnClickListener {
 
             PermsUtils.requestCallPermission(this)
 
@@ -113,7 +126,7 @@ class SecondFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
         }
 
-        binding.email.setOnClickListener {
+        binding.includeContact.email.setOnClickListener {
             startActivity(emailChooser)
         }
     }

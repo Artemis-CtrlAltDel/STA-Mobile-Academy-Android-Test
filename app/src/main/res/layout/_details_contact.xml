@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.ChipGroup
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+212 706709258"
+        android:textColor="@color/c_phone"
+        android:textSize="17sp"
+        app:chipBackgroundColor="@color/c_phone_bg"
+        app:chipEndPadding="15dp"
+
+
+        app:chipIcon="@drawable/ic_phone"
+        app:chipIconTint="@color/c_phone"
+        app:chipStartPadding="15dp" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/fax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="55555555"
+        android:textColor="@color/c_fax"
+        android:textSize="17sp"
+
+        app:chipBackgroundColor="@color/c_fax_bg"
+        app:chipEndPadding="15dp"
+
+        app:chipIcon="@drawable/ic_fax"
+        app:chipIconTint="@color/c_fax"
+        app:chipStartPadding="15dp" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="mbellaala@sqli.com"
+        android:textColor="@color/c_email"
+        android:textSize="17sp"
+
+        app:chipBackgroundColor="@color/c_email_bg"
+        app:chipEndPadding="15dp"
+
+        app:chipIcon="@drawable/ic_email"
+        app:chipIconTint="@color/c_email"
+        app:chipStartPadding="15dp" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="somewhere"
+        android:textColor="@color/c_city"
+        android:textSize="17sp"
+
+        app:chipBackgroundColor="@color/c_city_bg"
+        app:chipEndPadding="15dp"
+
+        app:chipIcon="@drawable/ic_city"
+        app:chipIconTint="@color/c_city"
+        app:chipStartPadding="15dp" />
+
+</com.google.android.material.chip.ChipGroup>
