@@ -3,7 +3,6 @@ package com.example.myapplication.other
 import android.Manifest
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.example.myapplication.presentation.fragments.FirstFragment
 import com.vmadalin.easypermissions.EasyPermissions
 
 object PermsUtils {

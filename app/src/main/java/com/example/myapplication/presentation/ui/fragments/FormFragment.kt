@@ -1,29 +1,28 @@
-package com.example.myapplication.presentation.fragments
+package com.example.myapplication.presentation.ui.fragments
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
-import com.example.myapplication.databinding.FragmentFirstBinding
+import com.example.myapplication.databinding.FragmentFormBinding
 import com.example.myapplication.other.Constants
 import com.example.myapplication.other.PermsUtils
+import com.example.myapplication.presentation.fragments.FirstFragmentDirections
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
-class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentFormBinding? = null
     private val binding get() = _binding!!
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
@@ -35,13 +34,13 @@ class FirstFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentFormBinding.inflate(layoutInflater, container, false)
 
         cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         sharedViewModel.onFormValidated = { user ->
 
-            sharedViewModel.setUser(user.also { it.image = cameraBitmap })
+            sharedViewModel.insertUser(user)
             Navigation.findNavController(binding.root)
                 .navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment())
         }

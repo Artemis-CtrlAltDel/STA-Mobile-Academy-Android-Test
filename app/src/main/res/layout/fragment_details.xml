@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="40dp"
-    tools:context=".presentation.fragments.SecondFragment">
+    tools:context=".presentation.ui.fragments.DetailsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,19 +20,9 @@
                 android:id="@+id/include_primary_details"
                 layout="@layout/_details_primary" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:backgroundTint="?attr/colorSurface"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="0dp">
-
-                <include
-                    android:id="@+id/include_secondary_details"
-                    layout="@layout/_details_secondary" />
-
-            </androidx.cardview.widget.CardView>
+            <include
+                android:id="@+id/include_secondary_details"
+                layout="@layout/_details_secondary" />
 
             <TextView
                 android:layout_width="match_parent"

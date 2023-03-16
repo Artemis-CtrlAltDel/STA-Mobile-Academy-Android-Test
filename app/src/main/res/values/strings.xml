@@ -6,6 +6,9 @@
     <!-- main activity -->
     <string name="activity_main_toolbar_menu_darkmode">Toggle night mode</string>
 
+    <!-- fragment 3 -->
+    <string name="fragment_3_fab">Add</string>
+
     <!--fragment 2-->
     <string name="fragment_2_intent_chooser_title">Email to %s</string>
 

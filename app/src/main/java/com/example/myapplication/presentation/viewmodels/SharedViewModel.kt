@@ -1,27 +1,30 @@
 package com.example.myapplication.presentation.viewmodels
 
-import android.graphics.Bitmap
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.data.pojo.User
+import com.example.myapplication.data.local.pojo.User
+import com.example.myapplication.data.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SharedViewModel : ViewModel() {
+@HiltViewModel
+class SharedViewModel @Inject constructor(
+    private val repository: UserRepository
+) : ViewModel() {
 
     /** data sharing **/
-
     var userDetails = MutableLiveData<User>(null)
+
+    /** database calling **/
+
+    var userList: LiveData<List<User>> = repository.getUserList()
         private set
 
-    init {
-        refresh()
-    }
-
-    fun setUser(value: User) {
-        userDetails.value = value
-    }
-
-    fun refresh() = userDetails
-
+    fun insertUser(vararg user: User) = repository.insertUser(*user)
+    fun deleteUser(vararg user: User) = repository.deleteUser(*user)
+    fun truncate() = repository.truncate()
+    fun getUser(fname: String, lname: String) = repository.getUser(fname, lname)
 
     /** form validation **/
 
