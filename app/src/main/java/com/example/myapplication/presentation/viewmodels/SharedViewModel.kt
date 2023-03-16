@@ -28,6 +28,8 @@ class SharedViewModel : ViewModel() {
     var errorMessage = MutableLiveData("")
         private set
 
+    private var isValid = true
+
     var onFormValidated: (value: User) -> Unit = {}
 
     fun validateForm(
@@ -59,16 +61,21 @@ class SharedViewModel : ViewModel() {
         job: String,
         bio: String
 
-    ) = (validatePersonalData(fname, lname, email, phone, fax) &&
-            validateAdditionalData(country, city, job, bio))
+    ): Boolean {
+        clearErrors()
+
+        validatePersonalData(fname, lname, email, phone, fax)
+        validateAdditionalData(country, city, job, bio)
+
+        return isValid
+    }
 
     private fun validateAdditionalData(
         country: String,
         city: String,
         job: String,
         bio: String
-    ): Boolean {
-        var isValid = true
+    ) {
 
         if (country.isBlank() ||
             city.isBlank() ||
@@ -90,8 +97,6 @@ class SharedViewModel : ViewModel() {
         if (bio.isBlank()) {
             errorMessage.value += "Bio is missing\n"
         }
-
-        return isValid
     }
 
     private fun validatePersonalData(
@@ -100,8 +105,7 @@ class SharedViewModel : ViewModel() {
         email: String,
         phone: String,
         fax: String
-    ): Boolean {
-        var isValid = true
+    ) {
 
         if (fname.isBlank() ||
             lname.isBlank() ||
@@ -127,8 +131,6 @@ class SharedViewModel : ViewModel() {
         if (fax.isBlank()) {
             errorMessage.value += "Fax is missing\n"
         }
-
-        return isValid
     }
 
     private fun clearErrors() {
