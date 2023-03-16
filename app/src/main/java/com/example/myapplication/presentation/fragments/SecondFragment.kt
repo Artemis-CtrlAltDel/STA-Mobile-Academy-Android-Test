@@ -62,8 +62,7 @@ class SecondFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         _binding = null
     }
 
-    private fun bindViews() = with(binding) {
-
+    private fun bindViews() =
         sharedViewModel.userDetails.observe(viewLifecycleOwner) {
             if (it == null) return@observe
 
@@ -114,7 +113,6 @@ class SecondFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
 
         }
-    }
 
     private fun handleActions() {
         binding.includeContact.phone.setOnClickListener {
