@@ -34,6 +34,11 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     ): View {
         _binding = FragmentDetailsBinding.inflate(layoutInflater, container, false)
 
+        sharedViewModel.getUser(
+            fname = requireActivity().intent.getStringExtra("user-details-fname").toString(),
+            lname = requireActivity().intent.getStringExtra("user-details-lname").toString(),
+        )
+
         bindViews()
         handleActions()
 

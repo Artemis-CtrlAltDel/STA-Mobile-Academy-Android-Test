@@ -14,7 +14,9 @@ class SharedViewModel @Inject constructor(
 ) : ViewModel() {
 
     /** data sharing **/
+
     var userDetails = MutableLiveData<User>(null)
+        private set
 
     /** database calling **/
 
@@ -24,7 +26,9 @@ class SharedViewModel @Inject constructor(
     fun insertUser(vararg user: User) = repository.insertUser(*user)
     fun deleteUser(vararg user: User) = repository.deleteUser(*user)
     fun truncate() = repository.truncate()
-    fun getUser(fname: String, lname: String) = repository.getUser(fname, lname)
+    fun getUser(fname: String, lname: String) {
+        userDetails.value = repository.getUser(fname, lname)
+    }
 
     /** form validation **/
 
