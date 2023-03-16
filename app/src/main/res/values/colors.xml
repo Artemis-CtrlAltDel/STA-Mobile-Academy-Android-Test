@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="c_transparent">#00000000</color>
+
     <color name="c_error">#e74c3c</color>
     <color name="c_perms">#00cec9</color>
     <color name="c_input">#26BDC3C7</color>
@@ -23,6 +25,8 @@
 
     <color name="c_city">#8600E6</color>
     <color name="c_city_bg">#1F8600E6</color>
+
+    <color name="c_card_overlay">#ffda79</color>
 
     <color name="c_abs_parent_bg_light">#f3f3f3</color>
     <color name="c_abs_parent_bg_night">#171717</color>

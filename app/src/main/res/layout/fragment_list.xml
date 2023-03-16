@@ -17,7 +17,9 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:listitem="@layout/card_user"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:spanCount="2"
             />
 
     </androidx.core.widget.NestedScrollView>
