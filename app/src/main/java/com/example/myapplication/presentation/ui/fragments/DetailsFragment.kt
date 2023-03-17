@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentDetailsBinding
@@ -23,6 +25,8 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
+    private val navArgs: DetailsFragmentArgs by navArgs()
+
     private lateinit var callIntent: Intent
 
     private lateinit var emailIntent: Intent
@@ -34,10 +38,7 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     ): View {
         _binding = FragmentDetailsBinding.inflate(layoutInflater, container, false)
 
-        sharedViewModel.getUser(
-            fname = requireActivity().intent.getStringExtra("user-details-fname").toString(),
-            lname = requireActivity().intent.getStringExtra("user-details-lname").toString(),
-        )
+        sharedViewModel.getUser(navArgs.userId)
 
         bindViews()
         handleActions()
@@ -70,11 +71,7 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             if (it == null) return@observe
 
             with(binding.includePrimaryDetails) {
-                it.image?.let { bitmap ->
-                    Glide.with(requireContext()).load(bitmap).into(image)
-                } ?: run {
-                    Glide.with(requireContext()).load(R.drawable.img).into(image)
-                }
+                Glide.with(requireContext()).load(it.image).into(image)
                 name.text = getString(
                     R.string.fragment_2_name,
                     it.fname, it.lname

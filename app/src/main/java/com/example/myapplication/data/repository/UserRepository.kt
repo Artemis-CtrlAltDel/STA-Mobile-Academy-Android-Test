@@ -9,8 +9,8 @@ class UserRepository @Inject constructor(
 ) {
 
     fun getUserList() = dao.getUserList()
-    fun insertUser(vararg user: User) = dao.insertUser(*user)
-    fun getUser(fname: String, lname: String) = dao.getUser(fname, lname)
+    fun insertUser(user: User) = dao.insertUser(user)
+    fun getUser(id: Long) = dao.getUser(id)
 
     fun truncate() = dao.truncate()
     fun deleteUser(vararg user: User) = dao.deleteUser(*user)

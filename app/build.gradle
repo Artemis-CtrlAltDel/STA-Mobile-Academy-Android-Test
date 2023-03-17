@@ -65,6 +65,7 @@ dependencies {
     def lifecycle_version = "2.6.0"
     def room_version = "2.5.0"
     def hilt_version = "2.44"
+    def dimens_version = "1.1.0"
 
     // navigation component
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -93,6 +94,10 @@ dependencies {
     // hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    // dimens
+    implementation "com.intuit.ssp:ssp-android:$dimens_version"
+    implementation "com.intuit.sdp:sdp-android:$dimens_version"
 
 }
 

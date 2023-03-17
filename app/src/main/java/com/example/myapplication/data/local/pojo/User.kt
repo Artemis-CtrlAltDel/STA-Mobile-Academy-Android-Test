@@ -2,6 +2,7 @@ package com.example.myapplication.data.local.pojo
 
 import android.graphics.Bitmap
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -25,9 +26,11 @@ data class User(
 
     @IgnoredOnParcel
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = 0L // this field is not mandatory for creating a user object
+    var id: Long? = null
 
     @IgnoredOnParcel
-    @Embedded
-    var image: Bitmap? = null // this field is not mandatory for creating a user object
+    var image: Bitmap? = null
+
+    @IgnoredOnParcel
+    var joinedTimestamp: Long? = 0L
 }

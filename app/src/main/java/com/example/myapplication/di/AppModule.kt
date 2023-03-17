@@ -21,6 +21,7 @@ object AppModule {
     fun providesAppDatabase(@ApplicationContext app: Context) =
         Room.databaseBuilder(app, AppDatabase::class.java, "MyApplicationDB")
             .allowMainThreadQueries()
+            .fallbackToDestructiveMigration()
             .build()
 
     @Singleton

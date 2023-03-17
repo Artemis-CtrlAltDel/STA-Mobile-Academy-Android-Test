@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,11 +24,12 @@ class SharedViewModel @Inject constructor(
     var userList: LiveData<List<User>> = repository.getUserList()
         private set
 
-    fun insertUser(vararg user: User) = repository.insertUser(*user)
+    fun insertUser(user: User) = repository.insertUser(user)
     fun deleteUser(vararg user: User) = repository.deleteUser(*user)
     fun truncate() = repository.truncate()
-    fun getUser(fname: String, lname: String) {
-        userDetails.value = repository.getUser(fname, lname)
+
+    fun getUser(id: Long) {
+        userDetails.value = repository.getUser(id)
     }
 
     /** form validation **/
@@ -54,7 +56,9 @@ class SharedViewModel @Inject constructor(
         if (!isFormValid(fname, lname, email, phone, fax, country, city, job, bio)) return
 
         clearErrors()
-        onFormValidated(User(fname, lname, email, phone, fax, country, city, job, bio))
+        onFormValidated(User(fname, lname, email, phone, fax, country, city, job, bio).also {
+            it.joinedTimestamp = Calendar.getInstance().timeInMillis
+        })
     }
 
     private fun isFormValid(

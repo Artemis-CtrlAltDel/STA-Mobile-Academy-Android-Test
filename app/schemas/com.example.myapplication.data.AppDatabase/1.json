@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e928b5e3745e540c295d7d428f68669c",
+    "identityHash": "1000d2aeaaac0b9f5eb438f7ddb9991a",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fname` TEXT NOT NULL, `lname` TEXT NOT NULL, `email` TEXT NOT NULL, `phone` TEXT NOT NULL, `fax` TEXT NOT NULL, `country` TEXT NOT NULL, `city` TEXT NOT NULL, `job` TEXT NOT NULL, `bio` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fname` TEXT NOT NULL, `lname` TEXT NOT NULL, `email` TEXT NOT NULL, `phone` TEXT NOT NULL, `fax` TEXT NOT NULL, `country` TEXT NOT NULL, `city` TEXT NOT NULL, `job` TEXT NOT NULL, `bio` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `joinedTimestamp` TEXT)",
         "fields": [
           {
             "fieldPath": "fname",
@@ -67,6 +67,12 @@
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "joinedTimestamp",
+            "columnName": "joinedTimestamp",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -82,7 +88,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e928b5e3745e540c295d7d428f68669c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1000d2aeaaac0b9f5eb438f7ddb9991a')"
     ]
   }
 }

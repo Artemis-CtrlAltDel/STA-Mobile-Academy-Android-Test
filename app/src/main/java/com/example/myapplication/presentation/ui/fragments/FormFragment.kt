@@ -3,8 +3,10 @@ package com.example.myapplication.presentation.ui.fragments
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +14,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import com.example.myapplication.R
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import com.example.myapplication.databinding.FragmentFormBinding
 import com.example.myapplication.other.Constants
 import com.example.myapplication.other.PermsUtils
-import com.example.myapplication.presentation.fragments.FirstFragmentDirections
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
@@ -28,21 +30,25 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private lateinit var cameraIntent: Intent
-    private var cameraBitmap: Bitmap? = null
+    private lateinit var cameraBitmap: Bitmap
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFormBinding.inflate(layoutInflater, container, false)
 
         cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
+        cameraBitmap = BitmapFactory.decodeResource(
+            requireContext().resources,
+            R.drawable.img
+        )
+
         sharedViewModel.onFormValidated = { user ->
 
-            sharedViewModel.insertUser(user)
+            sharedViewModel.insertUser(user.apply { image = cameraBitmap })
             Navigation.findNavController(binding.root)
-                .navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment())
+                .navigate(FormFragmentDirections.actionFormFragmentToListFragment())
         }
 
         bindViews()
@@ -124,9 +130,7 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)

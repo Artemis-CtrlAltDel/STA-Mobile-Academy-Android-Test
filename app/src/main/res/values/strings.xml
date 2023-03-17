@@ -42,4 +42,6 @@
     <string name="fragment_1_hint_image">Attach an image</string>
     <string name="fragment_1_image_preview">%s</string>
 
+    <string name="fragment_1_joinedAt">%s</string>
+
 </resources>

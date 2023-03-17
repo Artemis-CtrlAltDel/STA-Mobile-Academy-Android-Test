@@ -4,10 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:layout_marginVertical="5dp"
+    android:layout_marginHorizontal="5dp"
     android:backgroundTint="?attr/colorSurface"
     app:cardCornerRadius="15dp"
-    app:cardElevation="0dp">
+    app:cardElevation="0dp"
+    android:id="@+id/card_wrapper"
+    android:layout_gravity="center_horizontal"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chain"
@@ -15,48 +19,30 @@
         android:layout_height="wrap_content"
         android:padding="20dp">
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/image_wrapper"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/c_card_overlay"
 
             app:layout_constraintBottom_toTopOf="@+id/details_wrapper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            >
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/firm"
+            <ImageView
+                android:id="@+id/image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:layout_gravity="end"
-                android:layout_marginEnd="8dp"
-                android:elevation="1dp"
-                android:text="Android Developer"
-                />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/c_card_overlay"
-                >
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:alpha=".7"
-                    android:maxHeight="300dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_1" />
-            </androidx.cardview.widget.CardView>
-
-        </FrameLayout>
+                android:adjustViewBounds="true"
+                android:alpha=".7"
+                android:maxHeight="300dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_1" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/details_wrapper"
@@ -76,10 +62,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
-                android:maxLines="1"
-                android:text="Adlin"
+                android:maxLines="3"
+                android:text="3bdla 3alawi"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="25sp"
+                android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 />
@@ -90,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:text="Joined at 03/16/2023 09:43 PM"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="14sp"
+                android:textSize="@dimen/_10sdp"
                 android:layout_marginTop="3dp"
                 android:textAlignment="center"
                 />
