@@ -1,15 +1,20 @@
 package com.example.myapplication.presentation.ui.fragments
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,8 +22,10 @@ import androidx.navigation.Navigation
 import com.example.myapplication.R
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import com.example.myapplication.databinding.FragmentFormBinding
+import com.example.myapplication.databinding.ImageModalBottomSheetBinding
 import com.example.myapplication.other.Constants
 import com.example.myapplication.other.PermsUtils
+import com.example.myapplication.other.UiUtils
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
@@ -29,24 +36,38 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    private lateinit var cameraIntent: Intent
-    private lateinit var cameraBitmap: Bitmap
+    private lateinit var imageFromCamera: ActivityResultLauncher<Intent>
+    private lateinit var imageFromGallery: ActivityResultLauncher<String>
+
+    private lateinit var imageIntent: Intent
+    private var imageUri: Uri? = null
+
+    private lateinit var modalBottomSheetBinding: ImageModalBottomSheetBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFormBinding.inflate(layoutInflater, container, false)
 
-        cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromGallery =
+            registerForActivityResult(ActivityResultContracts.GetContent()) {
+                binding.includeAbout.imagePreview.setImageURI(it)
+                binding.includeAbout.imageUri.text = it.toString()
+            }
 
-        cameraBitmap = BitmapFactory.decodeResource(
-            requireContext().resources,
-            R.drawable.img
-        )
+        imageFromCamera =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                binding.includeAbout.imageUri.text = imageUri.toString()
+                binding.includeAbout.imagePreview.setImageURI(imageUri)
+            }
+
+        modalBottomSheetBinding = ImageModalBottomSheetBinding.inflate(layoutInflater)
+
+        imageIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         sharedViewModel.onFormValidated = { user ->
 
-            sharedViewModel.insertUser(user.apply { image = cameraBitmap })
+            sharedViewModel.insertUser(user.apply { image = imageUri })
             Navigation.findNavController(binding.root)
                 .navigate(FormFragmentDirections.actionFormFragmentToListFragment())
         }
@@ -89,9 +110,43 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.includeAbout.image.setOnClickListener {
             PermsUtils.requestCameraPermission(this)
             if (PermsUtils.hasCameraPermission(requireContext())) {
-                startActivityForResult(cameraIntent, Constants.CAMERA_REQUEST_CODE)
+                UiUtils.showBottomSheetDialog(
+                    requireActivity(),
+                    modalBottomSheetBinding
+                )
             }
         }
+
+        modalBottomSheetBinding.fromCamera.setOnClickListener {
+            initCameraIntent()
+            imageFromCamera.launch(imageIntent)
+        }
+
+        modalBottomSheetBinding.fromGallery.setOnClickListener {
+            imageFromGallery.launch("image/*")
+        }
+    }
+
+    /** camera utils **/
+    private fun initCameraIntent() {
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.TITLE, "new picture")
+            put(MediaStore.Images.Media.DESCRIPTION, "from camera")
+        }
+
+        imageUri =
+            requireActivity().contentResolver.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                values
+            )
+
+        imageIntent =
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                putExtra(
+                    MediaStore.EXTRA_OUTPUT,
+                    imageUri
+                )
+            }
     }
 
     private fun bindErrors() {
@@ -103,15 +158,8 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun togglePreviewVisibility() {
         binding.includeAbout.imageUri.isVisible = PermsUtils.hasCameraPermission(requireContext())
-        binding.includeAbout.imageUri.text = cameraBitmap.toString()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            cameraBitmap = data?.extras?.get("data") as Bitmap
-            binding.includeAbout.imageUri.text = cameraBitmap.toString()
-        }
+        binding.includeAbout.imagePreview.isVisible =
+            PermsUtils.hasCameraPermission(requireContext())
     }
 
     /** Perms **/

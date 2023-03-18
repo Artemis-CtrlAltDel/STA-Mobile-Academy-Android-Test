@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavArgs
 import androidx.navigation.NavController
@@ -41,15 +42,11 @@ class ListFragment : Fragment() {
         }
 
         bindViews()
+        getData()
         setupRecycler()
         handleActions()
 
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getData()
     }
 
     override fun onDestroyView() {
@@ -58,13 +55,7 @@ class ListFragment : Fragment() {
     }
 
     private fun bindViews() {
-        //
-    }
-
-    private fun getData() {
-        sharedViewModel.userList.observe(viewLifecycleOwner) {
-            it?.let { data -> adapter.setItems(data) }
-        }
+        toggleEmptyVisibility()
     }
 
     private fun setupRecycler() {
@@ -74,12 +65,24 @@ class ListFragment : Fragment() {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     }
 
+    private fun getData() {
+        sharedViewModel.userList.observe(viewLifecycleOwner) {
+            it?.let { data -> adapter.setItems(data) }
+            toggleEmptyVisibility()
+        }
+    }
+
     private fun toggleFabVisibility(scrollFlag: Boolean) {
         if (scrollFlag) {
             binding.fab.hide()
             return
         }
         binding.fab.show()
+    }
+
+    private fun toggleEmptyVisibility() {
+        binding.recycler.isVisible = adapter.itemCount != 0
+        binding.includeEmpty.emptyWrapper.isVisible = adapter.itemCount == 0
     }
 
     private fun handleActions() {

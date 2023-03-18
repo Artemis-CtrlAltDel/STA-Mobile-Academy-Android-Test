@@ -8,6 +8,7 @@
 
     <!-- fragment 3 -->
     <string name="fragment_3_fab">Add</string>
+    <string name="fragment_3_empty">Looks like no data found</string>
 
     <!--fragment 2-->
     <string name="fragment_2_intent_chooser_title">Email to %s</string>

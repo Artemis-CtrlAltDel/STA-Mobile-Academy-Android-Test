@@ -1,8 +1,7 @@
 package com.example.myapplication.data.local.pojo
 
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Parcelable
-import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -29,7 +28,7 @@ data class User(
     var id: Long? = null
 
     @IgnoredOnParcel
-    var image: Bitmap? = null
+    var image: Uri? = null
 
     @IgnoredOnParcel
     var joinedTimestamp: Long? = 0L

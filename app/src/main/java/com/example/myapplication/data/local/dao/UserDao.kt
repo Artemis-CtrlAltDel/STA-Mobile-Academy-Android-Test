@@ -13,7 +13,7 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE id = :id")
     fun getUser(id: Long): User
 
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM user ORDER BY joinedTimestamp DESC")
     fun getUserList(): LiveData<List<User>>
 
     @Delete
