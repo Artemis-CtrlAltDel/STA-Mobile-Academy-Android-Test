@@ -1,6 +1,7 @@
 package com.example.myapplication.data.local.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.myapplication.data.local.pojo.User
 
@@ -14,7 +15,7 @@ interface UserDao {
     fun getUser(id: Long): User
 
     @Query("SELECT * FROM user ORDER BY joinedTimestamp DESC")
-    fun getUserList(): LiveData<List<User>>
+    fun getUserList(): PagingSource<Int, User>
 
     @Delete
     fun deleteUser(vararg user: User)

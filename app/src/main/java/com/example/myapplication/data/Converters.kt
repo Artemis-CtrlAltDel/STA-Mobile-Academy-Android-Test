@@ -7,7 +7,7 @@ import androidx.room.TypeConverter
 class Converters {
 
     @TypeConverter
-    fun fromUri(value: Uri): String = value.toString()
+    fun fromUri(value: Uri?): String = value.toString()
 
     @TypeConverter
     fun toUri(value: String): Uri = value.toUri()

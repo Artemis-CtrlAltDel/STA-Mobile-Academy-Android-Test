@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentDetailsBinding
 import com.example.myapplication.other.PermsUtils
+import com.example.myapplication.other.XUtils.loadImage
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
@@ -71,7 +72,7 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             if (it == null) return@observe
 
             with(binding.includePrimaryDetails) {
-                Glide.with(requireContext()).load(it.image).into(image)
+                image.loadImage(requireContext(), it.image, R.drawable.img)
                 name.text = getString(
                     R.string.fragment_2_name,
                     it.fname, it.lname

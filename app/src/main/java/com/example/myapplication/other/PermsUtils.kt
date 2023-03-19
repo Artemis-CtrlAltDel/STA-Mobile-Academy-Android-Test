@@ -16,7 +16,7 @@ object PermsUtils {
     fun requestCameraPermission(host: Fragment) =
         EasyPermissions.requestPermissions(
             host = host,
-            rationale = "Can not launch the camera unless you grant it permission",
+            rationale = "Unable to launch the camera unless you grant it permission",
             requestCode = Constants.CAMERA_REQUEST_CODE,
             perms = arrayOf(Manifest.permission.CAMERA)
         )
@@ -30,8 +30,23 @@ object PermsUtils {
     fun requestCallPermission(host: Fragment) =
         EasyPermissions.requestPermissions(
             host = host,
-            rationale = "Can not dial the call unless you grant it permission",
-            requestCode = Constants.CAMERA_REQUEST_CODE,
+            rationale = "Unable to place the call unless you grant it permission",
+            requestCode = Constants.CALL_REQUEST_CODE,
             perms = arrayOf(Manifest.permission.CALL_PHONE)
         )
+
+    fun hasGalleryPermission(context: Context) =
+        EasyPermissions.hasPermissions(
+            context = context,
+            perms = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        )
+
+    fun requestGalleryPermission(host: Fragment) {
+        EasyPermissions.requestPermissions(
+            host = host,
+            rationale = "Unable to access your gallery unless you grant it permission",
+            requestCode = Constants.GALLERY_REQUEST_CODE,
+            perms = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        )
+    }
 }

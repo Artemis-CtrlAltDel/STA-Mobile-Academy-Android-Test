@@ -9,8 +9,9 @@ class UserRepository @Inject constructor(
     private val dao: UserDao
 ) {
 
-    fun getUserList(): LiveData<List<User>> = dao.getUserList()
     fun insertUser(user: User) = dao.insertUser(user)
+
+    fun getUserList() = dao.getUserList()
     fun getUser(id: Long) = dao.getUser(id)
 
     fun truncate() = dao.truncate()

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavArgs
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
@@ -19,6 +20,8 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentListBinding
 import com.example.myapplication.presentation.ui.adapters.UserListAdapter
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ListFragment : Fragment() {
 
@@ -66,8 +69,13 @@ class ListFragment : Fragment() {
     }
 
     private fun getData() {
-        sharedViewModel.userList.observe(viewLifecycleOwner) {
-            it?.let { data -> adapter.setItems(data) }
+        sharedViewModel.userList.observe(viewLifecycleOwner) { data ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                adapter.submitData(data)
+            }
+        }
+        adapter.addLoadStateListener{
+            Log.d("bruh", "getData: test")
             toggleEmptyVisibility()
         }
     }

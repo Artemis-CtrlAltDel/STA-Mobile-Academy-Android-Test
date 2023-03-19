@@ -1,10 +1,18 @@
 package com.example.myapplication.presentation.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import androidx.paging.liveData
+import com.example.myapplication.R
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.data.repository.UserRepository
+import com.example.myapplication.other.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
@@ -21,23 +29,24 @@ class SharedViewModel @Inject constructor(
 
     /** database calling **/
 
-    var userList: LiveData<List<User>> = repository.getUserList()
+    var userList = Pager(config = PagingConfig(Constants.PAGING_SIZE)) {
+        repository.getUserList()
+    }.liveData.cachedIn(viewModelScope)
         private set
-
-    fun insertUser(user: User) = repository.insertUser(user)
-    fun deleteUser(vararg user: User) = repository.deleteUser(*user)
-    fun truncate() = repository.truncate()
 
     fun getUser(id: Long) {
         userDetails.value = repository.getUser(id)
     }
 
+    fun insertUser(user: User) = repository.insertUser(user)
+    fun deleteUser(vararg user: User) = repository.deleteUser(*user)
+    fun truncate() = repository.truncate()
+
+
     /** form validation **/
 
     var errorMessage = MutableLiveData("")
         private set
-
-    private var isValid = true
 
     var onFormValidated: (value: User) -> Unit = {}
 
@@ -75,10 +84,13 @@ class SharedViewModel @Inject constructor(
     ): Boolean {
         clearErrors()
 
-        validatePersonalData(fname, lname, email, phone, fax)
-        validateAdditionalData(country, city, job, bio)
+        println(
+            "=".repeat(20) + "\n" + (validatePersonalData(fname, lname, email, phone, fax) &&
+                    validateAdditionalData(country, city, job, bio)).toString()
+        )
 
-        return isValid
+        return validatePersonalData(fname, lname, email, phone, fax) &&
+                validateAdditionalData(country, city, job, bio)
     }
 
     private fun validateAdditionalData(
@@ -86,7 +98,9 @@ class SharedViewModel @Inject constructor(
         city: String,
         job: String,
         bio: String
-    ) {
+    ): Boolean {
+
+        var isValid = true
 
         if (country.isBlank() ||
             city.isBlank() ||
@@ -108,6 +122,8 @@ class SharedViewModel @Inject constructor(
         if (bio.isBlank()) {
             errorMessage.value += "Bio is missing\n"
         }
+
+        return isValid
     }
 
     private fun validatePersonalData(
@@ -116,7 +132,9 @@ class SharedViewModel @Inject constructor(
         email: String,
         phone: String,
         fax: String
-    ) {
+    ): Boolean {
+
+        var isValid = true
 
         if (fname.isBlank() ||
             lname.isBlank() ||
@@ -142,6 +160,8 @@ class SharedViewModel @Inject constructor(
         if (fax.isBlank()) {
             errorMessage.value += "Fax is missing\n"
         }
+
+        return isValid
     }
 
     private fun clearErrors() {

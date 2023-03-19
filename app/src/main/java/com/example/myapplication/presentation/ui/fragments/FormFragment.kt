@@ -1,33 +1,28 @@
 package com.example.myapplication.presentation.ui.fragments
 
-import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.myapplication.R
-import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import com.example.myapplication.databinding.FragmentFormBinding
 import com.example.myapplication.databinding.ImageModalBottomSheetBinding
-import com.example.myapplication.other.Constants
 import com.example.myapplication.other.PermsUtils
 import com.example.myapplication.other.UiUtils
+import com.example.myapplication.other.Utils
+import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
+
 
 class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
@@ -47,33 +42,33 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentFormBinding.inflate(layoutInflater, container, false)
+
+        modalBottomSheetBinding = ImageModalBottomSheetBinding.inflate(layoutInflater)
 
         imageFromGallery =
             registerForActivityResult(ActivityResultContracts.GetContent()) {
-                binding.includeAbout.imagePreview.setImageURI(it)
-                binding.includeAbout.imageUri.text = it.toString()
+                imageUri = it
+                bindPreviews()
             }
 
         imageFromCamera =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                binding.includeAbout.imageUri.text = imageUri.toString()
-                binding.includeAbout.imagePreview.setImageURI(imageUri)
+                bindPreviews()
             }
-
-        modalBottomSheetBinding = ImageModalBottomSheetBinding.inflate(layoutInflater)
 
         imageIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
         sharedViewModel.onFormValidated = { user ->
 
             sharedViewModel.insertUser(user.apply { image = imageUri })
+
             Navigation.findNavController(binding.root)
                 .navigate(FormFragmentDirections.actionFormFragmentToListFragment())
         }
 
         bindViews()
-        bindErrors()
         handleActions()
 
         return binding.root
@@ -85,8 +80,8 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun bindViews() {
-        binding.includeAbout.imageUri.isVisible = false
-        binding.includeError.errorWrapper.isVisible = false
+        bindErrors()
+        bindPreviews()
     }
 
     private fun handleActions() {
@@ -108,63 +103,51 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         binding.includeAbout.image.setOnClickListener {
-            PermsUtils.requestCameraPermission(this)
-            if (PermsUtils.hasCameraPermission(requireContext())) {
-                UiUtils.showBottomSheetDialog(
-                    requireActivity(),
-                    modalBottomSheetBinding
-                )
-            }
+            UiUtils.showBottomSheetDialog(
+                requireActivity(),
+                modalBottomSheetBinding
+            )
         }
 
         modalBottomSheetBinding.fromCamera.setOnClickListener {
-            initCameraIntent()
-            imageFromCamera.launch(imageIntent)
+
+            PermsUtils.requestCameraPermission(this)
+
+            if (PermsUtils.hasCameraPermission(requireContext())) {
+                imageIntent.putExtra(
+                    MediaStore.EXTRA_OUTPUT,
+                    Utils.prepareImageUri(requireContext())
+                )
+
+                imageFromCamera.launch(imageIntent)
+            }
         }
 
         modalBottomSheetBinding.fromGallery.setOnClickListener {
-            imageFromGallery.launch("image/*")
-        }
-    }
 
-    /** camera utils **/
-    private fun initCameraIntent() {
-        val values = ContentValues().apply {
-            put(MediaStore.Images.Media.TITLE, "new picture")
-            put(MediaStore.Images.Media.DESCRIPTION, "from camera")
-        }
+            PermsUtils.requestGalleryPermission(this)
 
-        imageUri =
-            requireActivity().contentResolver.insert(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                values
-            )
-
-        imageIntent =
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-                putExtra(
-                    MediaStore.EXTRA_OUTPUT,
-                    imageUri
-                )
+            if (PermsUtils.hasGalleryPermission(requireContext())) {
+                imageFromGallery.launch("image/*")
             }
+        }
     }
 
     private fun bindErrors() {
         sharedViewModel.errorMessage.observe(viewLifecycleOwner) {
-            binding.includeError.errorWrapper.isVisible = !it.isNullOrBlank()
+            binding.includeError.errorWrapper.isVisible = it.isNotBlank()
             binding.includeError.error.text = it.trim()
         }
     }
 
-    private fun togglePreviewVisibility() {
-        binding.includeAbout.imageUri.isVisible = PermsUtils.hasCameraPermission(requireContext())
-        binding.includeAbout.imagePreview.isVisible =
-            PermsUtils.hasCameraPermission(requireContext())
+    private fun bindPreviews() {
+        binding.includeAbout.imagePreview.isVisible = imageUri.toString().isNotBlank()
+        binding.includeAbout.imagePreview.setImageURI(imageUri)
     }
 
     /** Perms **/
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
-        togglePreviewVisibility()
+        bindPreviews()
 
         if (EasyPermissions.permissionPermanentlyDenied(this, perms.first())) {
             SettingsDialog.Builder(requireContext()).build().show()
@@ -174,7 +157,7 @@ class FormFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        togglePreviewVisibility()
+        bindPreviews()
     }
 
     override fun onRequestPermissionsResult(
