@@ -2,18 +2,14 @@ package com.example.myapplication.presentation.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.DifferCallback
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.databinding.CardUserBinding
-import com.example.myapplication.other.XUtils.formatDate
-import com.example.myapplication.other.XUtils.loadImage
+import com.example.myapplication.other.formatDate
+import com.example.myapplication.other.loadImage
 
 class UserListAdapter(
     private val onItemClick: (userId: Long) -> Unit

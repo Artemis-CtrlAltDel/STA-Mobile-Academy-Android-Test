@@ -8,13 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentDetailsBinding
 import com.example.myapplication.other.PermsUtils
-import com.example.myapplication.other.XUtils.loadImage
+import com.example.myapplication.other.loadImage
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
@@ -134,7 +132,7 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         if (EasyPermissions.permissionPermanentlyDenied(this, perms.first())) {
             SettingsDialog.Builder(requireContext()).build().show()
         } else {
-            PermsUtils.requestCameraPermission(this)
+            PermsUtils.requestCallPermission(this)
         }
     }
 

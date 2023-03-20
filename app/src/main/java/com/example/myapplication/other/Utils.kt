@@ -1,24 +1,28 @@
 package com.example.myapplication.other
 
-import android.app.Activity
-import android.content.ContentResolver
-import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
+import android.content.Intent
 import android.provider.MediaStore
-import com.example.myapplication.R
+import androidx.core.content.FileProvider
+import java.io.File
 
 object Utils {
 
-    fun prepareImageUri(context: Context): Uri? {
-        val values = ContentValues().apply {
-            put(MediaStore.Images.Media.TITLE, "new picture")
-            put(MediaStore.Images.Media.DESCRIPTION, "from camera")
-        }
+    fun createImageSourceChooser(context: Context, tempFile: File): Intent {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        val camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-        return context.contentResolver.insert(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            values
+        camIntent.putExtra(
+            MediaStore.EXTRA_OUTPUT,
+            FileProvider.getUriForFile(
+                context, context.packageName + ".provider",
+                tempFile
+            )
         )
+        val chooser = Intent.createChooser(camIntent, "Select Image")
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(intent))
+
+        return chooser
     }
 }

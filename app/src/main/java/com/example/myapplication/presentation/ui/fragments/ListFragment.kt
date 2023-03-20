@@ -1,7 +1,6 @@
 package com.example.myapplication.presentation.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +8,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavArgs
-import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentListBinding
 import com.example.myapplication.presentation.ui.adapters.UserListAdapter
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
@@ -75,7 +68,6 @@ class ListFragment : Fragment() {
             }
         }
         adapter.addLoadStateListener{
-            Log.d("bruh", "getData: test")
             toggleEmptyVisibility()
         }
     }
