@@ -13,12 +13,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.paging.filter
 import androidx.paging.map
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.myapplication.databinding.FragmentListBinding
 import com.example.myapplication.presentation.ui.adapters.UserListAdapter
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ListFragment : Fragment() {
 
@@ -43,10 +46,14 @@ class ListFragment : Fragment() {
 
         bindViews()
         setupRecycler()
-        getData()
         handleActions()
-
+        
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getData()
     }
 
     override fun onDestroyView() {
@@ -62,14 +69,12 @@ class ListFragment : Fragment() {
         binding.recycler.adapter = adapter
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            GridLayoutManager(requireContext(),2)
     }
 
     private fun getData() {
         sharedViewModel.userList.observe(viewLifecycleOwner) { data ->
-            lifecycleScope.launch(Dispatchers.IO) {
-                adapter.submitData(data)
-            }
+            adapter.submitData(viewLifecycleOwner.lifecycle, data)
         }
         adapter.addLoadStateListener{
             toggleEmptyVisibility()
@@ -90,7 +95,7 @@ class ListFragment : Fragment() {
     }
 
     private fun handleActions() {
-        binding.nestedScroll.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+        binding.recycler.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             toggleFabVisibility(scrollY > oldScrollY)
         }
         binding.fab.setOnClickListener {

@@ -3,13 +3,9 @@ package com.example.myapplication.presentation.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import androidx.paging.liveData
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.data.repository.UserRepository
-import com.example.myapplication.other.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
@@ -26,9 +22,7 @@ class SharedViewModel @Inject constructor(
 
     /** database calling **/
 
-    var userList = Pager(config = PagingConfig(Constants.PAGING_SIZE)) {
-        repository.getUserList()
-    }.liveData.cachedIn(viewModelScope)
+    var userList = repository.getUserList().cachedIn(viewModelScope)
         private set
 
     fun getUser(id: Long) {

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.databinding.CardUserBinding
@@ -12,62 +13,62 @@ import com.example.myapplication.other.formatDate
 import com.example.myapplication.other.loadImage
 
 class UserListAdapter(
-    private val onItemClick: (userId: Long) -> Unit
-) :
-    PagingDataAdapter<User, UserListAdapter.ViewHolder>(differCallback) {
+    val onItemClick: (userId: Long) -> Unit
+) : PagingDataAdapter<User, UserListAdapter.ViewHolder>(diffCallback) {
 
-    companion object {
-        private val differCallback = object : DiffUtil.ItemCallback<User>() {
-            override fun areItemsTheSame(oldItem: User, newItem: User) = (oldItem.id == newItem.id)
-            override fun areContentsTheSame(oldItem: User, newItem: User) = (oldItem == newItem)
-        }
-    }
-
-    inner class ViewHolder(val binding: CardUserBinding) :
-        androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root)
-
-    private val diff = AsyncListDiffer(this, differCallback)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListAdapter.ViewHolder {
+        return ViewHolder(
             CardUserBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
         )
+    }
 
-    override fun getItemCount() = diff.currentList.size
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<User>() {
+            override fun areItemsTheSame(oldItem: User, newItem: User) = (oldItem.id == newItem.id)
+            override fun areContentsTheSame(oldItem: User, newItem: User) = (oldItem == newItem)
+        }
+    }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = diff.currentList[position]
-        val context = holder.binding.image.context
+    private val diff = AsyncListDiffer(this, diffCallback)
 
-        with(holder) {
+    inner class ViewHolder(private val binding: CardUserBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(user: User) {
+            val context = binding.image.context
 
             // bind views
             binding.name.text = context.getString(
                 R.string.fragment_2_name,
-                item.fname,
-                item.lname
+                user.fname,
+                user.lname
             )
 
             binding.joinedAt.text = context.getString(
                 R.string.fragment_1_joinedAt,
-                item.joinedTimestamp!!.formatDate()
+                user.joinedTimestamp!!.formatDate()
             )
 
             binding.image.loadImage(
                 context = context,
-                uri = item.image,
+                uri = user.image,
                 default = R.drawable.img
             )
 
             // handle actions
             binding.cardWrapper.setOnClickListener {
-                onItemClick(item.id!!)
+                onItemClick(user.id!!)
             }
-
         }
+    }
+
+    override fun onBindViewHolder(holder: UserListAdapter.ViewHolder, position: Int) {
+        getItem(position)?.let {
+            holder.bind(it)
+        } ?: run { holder.bind(diff.currentList[position]) }
     }
 }
