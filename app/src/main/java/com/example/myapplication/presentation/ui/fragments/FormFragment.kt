@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +23,7 @@ import java.io.FileOutputStream
 import java.util.*
 
 
-class FormFragment : Fragment(){
+class FormFragment : Fragment() {
 
     private var _binding: FragmentFormBinding? = null
     private val binding get() = _binding!!
@@ -95,18 +97,20 @@ class FormFragment : Fragment(){
         imgLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
-            if (it.resultCode != Activity.RESULT_CANCELED) {
+            if (it.resultCode == Activity.RESULT_OK) {
                 val tempUri = Uri.fromFile(imgTempFile)
-                var uri = it.data?.data ?: tempUri
-                if(uri != null){
-                    if (uri.path != tempUri.path){
+                val uri = it.data?.data ?: tempUri
+                if (uri != null) {
+                    if (uri.path != tempUri.path) {
                         requireActivity().contentResolver.openInputStream(uri).use { inputStream ->
                             FileOutputStream(File(imgTempFile.path)).use { outputStream ->
                                 inputStream?.copyTo(outputStream)
                                 outputStream.close()
                             }
                         }
-                        uri = tempUri
+                        val from = File(uri.toString())
+                        val to = imgTempFile
+                        from.renameTo(to)
                     }
                     imgUri = uri
                 }

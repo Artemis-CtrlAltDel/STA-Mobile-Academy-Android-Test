@@ -1,7 +1,5 @@
 package com.example.myapplication.presentation.viewmodels
 
-import android.net.Uri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +7,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.liveData
-import com.example.myapplication.R
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.data.repository.UserRepository
 import com.example.myapplication.other.Constants
@@ -84,13 +81,10 @@ class SharedViewModel @Inject constructor(
     ): Boolean {
         clearErrors()
 
-        println(
-            "=".repeat(20) + "\n" + (validatePersonalData(fname, lname, email, phone, fax) &&
-                    validateAdditionalData(country, city, job, bio)).toString()
-        )
+        val isPersonalValid = validatePersonalData(fname, lname, email, phone, fax)
+        val isAdditionalValid = validateAdditionalData(country, city, job, bio)
 
-        return validatePersonalData(fname, lname, email, phone, fax) &&
-                validateAdditionalData(country, city, job, bio)
+        return isPersonalValid && isAdditionalValid
     }
 
     private fun validateAdditionalData(
