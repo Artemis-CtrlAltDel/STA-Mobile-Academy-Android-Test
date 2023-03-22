@@ -1,4 +1,4 @@
-package com.example.myapplication.data.local.dao
+package com.example.myapplication.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
@@ -9,7 +9,7 @@ import com.example.myapplication.data.local.pojo.User
 interface UserDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUser(user: User)
+    fun insertUser(vararg user: User)
 
     @Query("SELECT * FROM user WHERE id = :id")
     fun getUser(id: Long): User

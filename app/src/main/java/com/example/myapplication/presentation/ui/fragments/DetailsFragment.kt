@@ -3,9 +3,11 @@ package com.example.myapplication.presentation.ui.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -17,7 +19,7 @@ import com.example.myapplication.presentation.viewmodels.SharedViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
-class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClickListener {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -27,9 +29,15 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private val navArgs: DetailsFragmentArgs by navArgs()
 
     private lateinit var callIntent: Intent
+    private var fax: String? = null
+    private var phone: String? = null
 
     private lateinit var emailIntent: Intent
     private lateinit var emailChooser: Intent
+    private var emailAddress: String? = null
+
+    private lateinit var mapsIntent: Intent
+    private var mapsUri: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,23 +47,14 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         sharedViewModel.getUser(navArgs.userId)
 
-        bindViews()
-        handleActions()
-
-        callIntent =
-            Intent(Intent.ACTION_DIAL).apply {
-                data = Uri.parse("tel:${binding.includeContact.phone.text}")
-            }
-
         emailIntent = Intent(Intent.ACTION_SEND)
 
-        emailChooser = Intent.createChooser(
-            emailIntent.apply {
-                type = "text/plain"
-                putExtra(Intent.EXTRA_EMAIL, binding.includeContact.email.text)
-            },
-            getString(R.string.fragment_2_intent_chooser_title, binding.includeContact.email.text)
-        )
+        callIntent = Intent(Intent.ACTION_DIAL)
+
+        mapsIntent = Intent(Intent.ACTION_VIEW).setPackage("com.google.android.apps.maps")
+
+        bindViews()
+        handleActions()
 
         return binding.root
     }
@@ -68,6 +67,11 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun bindViews() =
         sharedViewModel.userDetails.observe(viewLifecycleOwner) {
             if (it == null) return@observe
+
+            mapsUri = Uri.parse("geo:0,0?q=${it.city}, ${it.country}")
+            emailAddress = it.email
+            phone = it.phone
+            fax = it.fax
 
             with(binding.includePrimaryDetails) {
                 image.loadImage(requireContext(), it.image, R.drawable.img)
@@ -114,17 +118,23 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
     private fun handleActions() {
-        binding.includeContact.phone.setOnClickListener {
 
-            PermsUtils.requestCallPermission(this)
-
-            if (PermsUtils.hasCallPermission(requireContext())) {
-                startActivity(callIntent)
-            }
-        }
+        binding.includeContact.phone.setOnClickListener(this)
+        binding.includeContact.fax.setOnCloseIconClickListener(this)
 
         binding.includeContact.email.setOnClickListener {
+            emailChooser = Intent.createChooser(
+                emailIntent.apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_EMAIL, emailAddress)
+                },
+                getString(R.string.fragment_2_intent_chooser_title, emailAddress)
+            )
             startActivity(emailChooser)
+        }
+
+        binding.includeContact.city.setOnClickListener {
+            startActivity(mapsIntent.also { it.data = mapsUri })
         }
     }
 
@@ -147,5 +157,17 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onClick(p0: View?) {
+        PermsUtils.requestCallPermission(this)
+
+        if (PermsUtils.hasCallPermission(requireContext())) {
+            startActivity(callIntent.also {
+                it.data =
+                    if (p0?.id == R.id.fax) Uri.parse("tel:$fax")
+                    else Uri.parse("tel:$phone")
+            })
+        }
     }
 }
