@@ -28,7 +28,7 @@
 
     <color name="c_card_overlay">#ffda79</color>
 
-    <color name="c_abs_parent_bg_light">#fafafa</color>
+    <color name="c_abs_parent_bg_light">#26A4B0BE</color>
     <color name="c_abs_parent_bg_night">#171717</color>
 
     <color name="c_primary">#3498db</color>
