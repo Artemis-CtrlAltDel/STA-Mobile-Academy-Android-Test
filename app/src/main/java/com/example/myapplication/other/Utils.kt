@@ -25,4 +25,7 @@ object Utils {
 
         return chooser
     }
+
+    fun isValidEmail(email: String) = Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+").matches(email)
+    fun isValidPhoneFax(number: String) = Regex("^(\\+212|\\(212\\)|0)\\s?[5-7][0-9]{8}\$").matches(number)
 }

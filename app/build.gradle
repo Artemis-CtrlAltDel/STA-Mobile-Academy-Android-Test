@@ -68,8 +68,8 @@ dependencies {
     def lifecycle_version = "2.6.0"
     def coroutines_version = "1.6.4"
     def rxjava_version = "3.1.5"
-    def retrofit_version = "2.3.0"
-    def room_version = "2.5.0"
+    def retrofit_version = "2.9.0"
+    def room_version = "2.5.1"
     def hilt_version = "2.44"
     def dimens_version = "1.1.0"
     def paging_version = "3.1.1"
@@ -97,17 +97,22 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     // rxjava
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.2"
     implementation "io.reactivex.rxjava3:rxjava:$rxjava_version"
 
-    // retrofit
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    //Gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    // Retrofit - retrofit & converter & adapter
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
 
     // room
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-paging:$room_version"
+    implementation "androidx.room:room-rxjava3:$room_version"
+    implementation "androidx.room:room-paging-rxjava3:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -118,6 +123,7 @@ dependencies {
 
     // paging 3
     implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.paging:paging-rxjava3:$paging_version"
 
     // dimens
     implementation "com.intuit.ssp:ssp-android:$dimens_version"

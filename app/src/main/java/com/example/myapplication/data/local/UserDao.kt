@@ -1,9 +1,9 @@
 package com.example.myapplication.data.local
 
-import androidx.lifecycle.LiveData
-import androidx.paging.PagingSource
+import androidx.paging.rxjava3.RxPagingSource
 import androidx.room.*
 import com.example.myapplication.data.local.pojo.User
+import io.reactivex.rxjava3.core.Single
 
 @Dao
 interface UserDao {
@@ -15,7 +15,7 @@ interface UserDao {
     fun getUser(id: Long): User
 
     @Query("SELECT * FROM user ORDER BY joinedTimestamp DESC")
-    fun getUserList(): PagingSource<Int, User>
+    fun getUserList(): RxPagingSource<Int, User>
 
     @Delete
     fun deleteUser(vararg user: User)

@@ -1,19 +1,28 @@
 package com.example.myapplication.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.data.repository.UserRepository
+import com.example.myapplication.other.Resource
+import com.example.myapplication.other.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val repository: UserRepository
 ) : ViewModel() {
+
+    companion object {
+        private val compositeDisposable = CompositeDisposable()
+    }
 
     /** data sharing **/
 
@@ -57,7 +66,7 @@ class SharedViewModel @Inject constructor(
 
         clearErrors()
         onFormValidated(User(fname, lname, email, phone, fax, country, city, job, bio).also {
-            it.joinedTimestamp = Calendar.getInstance().timeInMillis
+            it.isLocal = true
         })
     }
 
@@ -126,9 +135,9 @@ class SharedViewModel @Inject constructor(
 
         if (fname.isBlank() ||
             lname.isBlank() ||
-            email.isBlank() ||
-            phone.isBlank() ||
-            fax.isBlank()
+            email.isBlank() || !Utils.isValidEmail(email) ||
+            phone.isBlank() || !Utils.isValidPhoneFax(phone) ||
+            fax.isBlank() || !Utils.isValidPhoneFax(fax)
         ) {
             isValid = false
         }
@@ -141,18 +150,23 @@ class SharedViewModel @Inject constructor(
         }
         if (email.isBlank()) {
             errorMessage.value += "Email address is missing\n"
-        }
+        } else if (!Utils.isValidEmail(email)) errorMessage.value += "Invalid email address\n"
         if (phone.isBlank()) {
             errorMessage.value += "Phone number is missing\n"
-        }
+        } else if (!Utils.isValidPhoneFax(phone)) errorMessage.value += "Invalid phone number\n"
         if (fax.isBlank()) {
             errorMessage.value += "Fax is missing\n"
-        }
+        } else if (!Utils.isValidPhoneFax(fax)) errorMessage.value += "Invalid fax number\n"
 
         return isValid
     }
 
     private fun clearErrors() {
         errorMessage.value = ""
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }

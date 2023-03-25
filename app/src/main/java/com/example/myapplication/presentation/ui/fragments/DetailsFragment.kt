@@ -3,15 +3,16 @@ package com.example.myapplication.presentation.ui.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.example.myapplication.R
+import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.databinding.FragmentDetailsBinding
 import com.example.myapplication.other.PermsUtils
 import com.example.myapplication.other.loadImage
@@ -74,10 +75,17 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClick
             fax = it.fax
 
             with(binding.includePrimaryDetails) {
-                image.loadImage(requireContext(), it.image, R.drawable.img)
+
+                toggleDetailsVisibility(it, country, jop, dotSep)
+
+                image.loadImage(requireContext(), avatar = it.avatar, it.image, R.drawable.img)
                 name.text = getString(
                     R.string.fragment_2_name,
                     it.fname, it.lname
+                )
+                jop.text = getString(
+                    R.string.fragment_2_job,
+                    it.job
                 )
                 country.text = getString(
                     R.string.fragment_2_country,
@@ -86,9 +94,11 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClick
             }
 
             with(binding.includeSecondaryDetails) {
+
                 bio.text = getString(
                     R.string.fragment_2_bio,
                     it.bio
+                        ?: "Hi, my name is ${it.fname} ${it.lname}\nFrom an API (reqres.in/api)\nThat's pretty much about it."
                 )
                 nameQuote.text = getString(
                     R.string.fragment_2_name_quoted,
@@ -97,6 +107,9 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClick
             }
 
             with(binding.includeContact) {
+
+                toggleDetailsVisibility(it, phone, fax, city)
+
                 phone.text = getString(
                     R.string.fragment_2_phone,
                     it.phone
@@ -117,10 +130,16 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClick
 
         }
 
+    private fun toggleDetailsVisibility(user: User, vararg view: View) {
+        view.forEach {
+            it.isVisible = user.isLocal
+        }
+    }
+
     private fun handleActions() {
 
         binding.includeContact.phone.setOnClickListener(this)
-        binding.includeContact.fax.setOnCloseIconClickListener(this)
+        binding.includeContact.fax.setOnClickListener(this)
 
         binding.includeContact.email.setOnClickListener {
             emailChooser = Intent.createChooser(

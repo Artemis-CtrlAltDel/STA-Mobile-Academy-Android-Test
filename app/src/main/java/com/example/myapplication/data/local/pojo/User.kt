@@ -26,8 +26,7 @@ data class User(
     val job: String? = "",
     val bio: String? = "",
 
-    @SerializedName("avatar")
-    var image: Uri? = null
+    var avatar: String? = null
 ): Parcelable {
 
     @IgnoredOnParcel
@@ -35,5 +34,11 @@ data class User(
     var id: Long? = null
 
     @IgnoredOnParcel
-    var joinedTimestamp: Long? = 0L
+    var image: Uri? = null
+
+    @IgnoredOnParcel
+    var joinedTimestamp: Long = System.currentTimeMillis()
+
+    @IgnoredOnParcel
+    var isLocal: Boolean = false
 }

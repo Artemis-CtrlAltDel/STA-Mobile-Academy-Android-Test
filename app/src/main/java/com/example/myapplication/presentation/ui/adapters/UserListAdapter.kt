@@ -50,11 +50,12 @@ class UserListAdapter(
 
             binding.joinedAt.text = context.getString(
                 R.string.fragment_1_joinedAt,
-                user.joinedTimestamp!!.formatDate()
+                user.joinedTimestamp.formatDate()
             )
 
             binding.image.loadImage(
                 context = context,
+                avatar = user.avatar,
                 uri = user.image,
                 default = R.drawable.img
             )

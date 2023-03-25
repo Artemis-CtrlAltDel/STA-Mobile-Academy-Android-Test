@@ -8,20 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.paging.filter
-import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.myapplication.databinding.FragmentListBinding
+import com.example.myapplication.other.Resource
 import com.example.myapplication.presentation.ui.adapters.UserListAdapter
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ListFragment : Fragment() {
 
@@ -73,6 +65,7 @@ class ListFragment : Fragment() {
     }
 
     private fun getData() {
+
         sharedViewModel.userList.observe(viewLifecycleOwner) { data ->
             adapter.submitData(viewLifecycleOwner.lifecycle, data)
         }

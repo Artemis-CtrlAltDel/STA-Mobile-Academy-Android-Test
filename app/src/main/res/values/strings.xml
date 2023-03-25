@@ -33,7 +33,7 @@
 
     <string name="fragment_1_title_about">Additional informations</string>
     <string name="fragment_1_hint_fname">Enter your first name</string>
-    <string name="fragment_1_hint_lname">Enter your first name</string>
+    <string name="fragment_1_hint_lname">Enter your last name</string>
     <string name="fragment_1_hint_email">Enter your email</string>
     <string name="fragment_1_hint_phone">Enter your phone number</string>
     <string name="fragment_1_hint_fax">Enter your fax</string>

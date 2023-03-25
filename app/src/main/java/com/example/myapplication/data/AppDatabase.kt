@@ -8,7 +8,7 @@ import com.example.myapplication.data.local.pojo.User
 @TypeConverters(Converters::class)
 @Database(
     entities = [User::class],
-    version = 8
+    version = 10
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
