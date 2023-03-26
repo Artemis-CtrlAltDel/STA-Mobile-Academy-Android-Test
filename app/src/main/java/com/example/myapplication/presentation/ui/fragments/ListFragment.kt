@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.databinding.FragmentListBinding
 import com.example.myapplication.other.Resource
@@ -31,15 +32,24 @@ class ListFragment : Fragment() {
 
         _binding = FragmentListBinding.inflate(layoutInflater, container, false)
 
-        adapter = UserListAdapter {
+        adapter = UserListAdapter { image, name, userId ->
+
+            val extras = FragmentNavigatorExtras(
+                Pair(image, "image_trans_to"),
+                Pair(name, "name_trans_to")
+            )
+
             Navigation.findNavController(binding.root)
-                .navigate(ListFragmentDirections.actionListFragmentToDetailsFragment(it))
+                .navigate(
+                    ListFragmentDirections.actionListFragmentToDetailsFragment(userId),
+                    extras
+                )
         }
 
         bindViews()
         setupRecycler()
         handleActions()
-        
+
         return binding.root
     }
 
@@ -61,7 +71,7 @@ class ListFragment : Fragment() {
         binding.recycler.adapter = adapter
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager =
-            GridLayoutManager(requireContext(),2)
+            GridLayoutManager(requireContext(), 2)
     }
 
     private fun getData() {
@@ -69,7 +79,7 @@ class ListFragment : Fragment() {
         sharedViewModel.userList.observe(viewLifecycleOwner) { data ->
             adapter.submitData(viewLifecycleOwner.lifecycle, data)
         }
-        adapter.addLoadStateListener{
+        adapter.addLoadStateListener {
             toggleEmptyVisibility()
         }
     }

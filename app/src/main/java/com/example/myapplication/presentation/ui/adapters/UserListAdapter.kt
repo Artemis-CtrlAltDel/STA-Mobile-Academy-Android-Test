@@ -2,6 +2,8 @@ package com.example.myapplication.presentation.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +15,7 @@ import com.example.myapplication.other.formatDate
 import com.example.myapplication.other.loadImage
 
 class UserListAdapter(
-    val onItemClick: (userId: Long) -> Unit
+    val onItemClick: (imageView: ImageView, nameView: TextView, userId: Long) -> Unit
 ) : PagingDataAdapter<User, UserListAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserListAdapter.ViewHolder {
@@ -62,7 +64,7 @@ class UserListAdapter(
 
             // handle actions
             binding.cardWrapper.setOnClickListener {
-                onItemClick(user.id!!)
+                onItemClick(binding.image, binding.name, user.id!!)
             }
         }
     }

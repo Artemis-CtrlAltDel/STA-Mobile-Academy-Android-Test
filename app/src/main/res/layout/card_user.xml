@@ -38,10 +38,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:alpha=".7"
+                android:alpha=".8"
                 android:maxHeight="300dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_1" />
+                android:src="@drawable/img"
+
+                android:transitionName="image_trans_from"
+                />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -63,11 +66,13 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:maxLines="3"
-                android:text="3bdla 3alawi"
+                android:text="Test test"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"
                 android:textAlignment="center"
+
+                android:transitionName="name_trans_from"
                 />
 
             <TextView

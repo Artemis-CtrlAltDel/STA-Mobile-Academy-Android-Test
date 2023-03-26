@@ -2,8 +2,6 @@ package com.example.myapplication.data.local.pojo
 
 import android.net.Uri
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName

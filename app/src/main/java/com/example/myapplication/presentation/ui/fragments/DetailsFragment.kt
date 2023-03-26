@@ -3,6 +3,8 @@ package com.example.myapplication.presentation.ui.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.Transition
+import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +42,8 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClick
     private lateinit var mapsIntent: Intent
     private var mapsUri: Uri? = null
 
+    private lateinit var transition: Transition
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +58,11 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClick
 
         mapsIntent = Intent(Intent.ACTION_VIEW).setPackage("com.google.android.apps.maps")
 
+        transition = TransitionInflater.from(requireContext()).inflateTransition(
+            android.R.transition.slide_left
+        )
+
+        bindTransitions()
         bindViews()
         handleActions()
 
@@ -129,6 +138,12 @@ class DetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks, OnClick
             }
 
         }
+
+
+    private fun bindTransitions() {
+        sharedElementEnterTransition = transition
+        sharedElementReturnTransition = transition
+    }
 
     private fun toggleDetailsVisibility(user: User, vararg view: View) {
         view.forEach {
