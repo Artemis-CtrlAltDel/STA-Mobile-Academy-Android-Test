@@ -21,6 +21,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
+
+        android:baselineAligned="false"
         >
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/country_wrapper"
@@ -143,6 +145,8 @@
 
                 android:adjustViewBounds="true"
                 android:src="@drawable/img"
+
+                android:contentDescription="@string/cd_profile_preview_image"
                 />
 
         </androidx.cardview.widget.CardView>

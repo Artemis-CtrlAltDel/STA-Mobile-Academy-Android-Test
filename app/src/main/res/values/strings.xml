@@ -3,12 +3,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- content description -->
+    <string name="cd_profile_image">Profile image</string>
+    <string name="cd_profile_preview_image">Profile image preview</string>
+    <string name="cd_no_data_image">No data image</string>
+    <string name="cd_inputs_error_icon">Warning inputs are empty or incorrect</string>
+
     <!-- main activity -->
     <string name="activity_main_toolbar_menu_darkmode">Toggle night mode</string>
 
     <!-- fragment 3 -->
     <string name="fragment_3_fab">Add</string>
     <string name="fragment_3_empty">Looks like no data found</string>
+    <string name="fragment_3_progress">We are getting it for you</string>
 
     <!--fragment 2-->
     <string name="fragment_2_intent_chooser_title">Email to %s</string>

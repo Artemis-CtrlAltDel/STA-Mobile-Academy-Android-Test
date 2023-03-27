@@ -9,7 +9,6 @@
         android:id="@+id/phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+212 706709258"
         android:textColor="@color/c_phone"
         android:textSize="17sp"
         app:chipBackgroundColor="@color/c_phone_bg"
@@ -24,7 +23,6 @@
         android:id="@+id/fax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="55555555"
         android:textColor="@color/c_fax"
         android:textSize="17sp"
 
@@ -39,7 +37,6 @@
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="mbellaala@sqli.com"
         android:textColor="@color/c_email"
         android:textSize="17sp"
 
@@ -54,7 +51,6 @@
         android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="somewhere"
         android:textColor="@color/c_city"
         android:textSize="17sp"
 

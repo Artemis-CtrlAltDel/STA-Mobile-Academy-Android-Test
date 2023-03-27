@@ -17,6 +17,9 @@
         android:id="@+id/include_empty"
         layout="@layout/_empty_view" />
 
+    <include
+        android:id="@+id/include_progress"
+        layout="@layout/_progress_view" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"

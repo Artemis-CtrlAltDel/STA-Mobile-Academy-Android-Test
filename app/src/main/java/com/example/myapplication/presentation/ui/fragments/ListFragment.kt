@@ -59,7 +59,7 @@ class ListFragment : Fragment() {
     }
 
     private fun bindViews() {
-        toggleEmptyVisibility()
+        toggleDataChangeVisibility()
     }
 
     private fun setupRecycler() {
@@ -75,7 +75,7 @@ class ListFragment : Fragment() {
             adapter.submitData(viewLifecycleOwner.lifecycle, data)
         }
         adapter.addLoadStateListener {
-            toggleEmptyVisibility()
+            toggleDataChangeVisibility()
         }
     }
 
@@ -87,9 +87,11 @@ class ListFragment : Fragment() {
         binding.fab.show()
     }
 
-    private fun toggleEmptyVisibility() {
+    private fun toggleDataChangeVisibility() {
         binding.recycler.isVisible = adapter.itemCount != 0
-        binding.includeEmpty.emptyWrapper.isVisible = adapter.itemCount == 0
+        binding.includeProgress.progressWrapper.isVisible = adapter.itemCount == 0
+        binding.includeEmpty.emptyWrapper.isVisible =
+            adapter.itemCount == 0 && !binding.includeProgress.progressWrapper.isVisible
     }
 
     private fun handleActions() {

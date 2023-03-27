@@ -44,6 +44,8 @@
                 android:src="@drawable/img"
 
                 android:transitionName="image_trans_from"
+
+                android:contentDescription="@string/cd_profile_image"
                 />
         </androidx.cardview.widget.CardView>
 
@@ -66,7 +68,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:maxLines="3"
-                android:text="Test test"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/_16sdp"
                 android:textStyle="bold"
@@ -79,7 +80,6 @@
                 android:id="@+id/joinedAt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Joined at 03/16/2023 09:43 PM"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="@dimen/_10sdp"
                 android:layout_marginTop="3dp"

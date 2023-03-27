@@ -15,16 +15,16 @@
     <color name="c_input">#26BDC3C7</color>
 
     <color name="c_email">#fdcb6e</color>
-    <color name="c_email_bg">#1FFDCB6E</color>
+    <color name="c_email_bg">#14FDCB6E</color>
 
     <color name="c_phone">#00cec9</color>
-    <color name="c_phone_bg">#1F00CEC9</color>
+    <color name="c_phone_bg">#1400CEC9</color>
 
     <color name="c_fax">#0097e6</color>
-    <color name="c_fax_bg">#1F0097E6</color>
+    <color name="c_fax_bg">#140097E6</color>
 
     <color name="c_city">#8600E6</color>
-    <color name="c_city_bg">#1F8600E6</color>
+    <color name="c_city_bg">#148600E6</color>
 
     <color name="c_card_overlay">#ffda79</color>
 
