@@ -7,12 +7,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.data.repository.UserRepository
-import com.example.myapplication.other.Resource
 import com.example.myapplication.other.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +19,7 @@ class SharedViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
+        private const val TAG = "SharedViewModel"
         private val compositeDisposable = CompositeDisposable()
     }
 
@@ -37,6 +36,14 @@ class SharedViewModel @Inject constructor(
     fun getUser(id: Long) {
         userDetails.value = repository.getUser(id)
     }
+
+    private fun getUserListRemote() =
+        repository.getUserListRemote()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ result ->
+                repository.insertUser(*result.toTypedArray())
+                Log.d(TAG, "getUserListRemote: $result")
+            }) { error -> Log.d(TAG, "getUserListRemote: $error") }
 
     fun insertUser(user: User) = repository.insertUser(user)
     fun deleteUser(vararg user: User) = repository.deleteUser(*user)

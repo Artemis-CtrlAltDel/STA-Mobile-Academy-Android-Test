@@ -6,6 +6,8 @@ import com.example.myapplication.data.local.UserDao
 import com.example.myapplication.data.local.pojo.User
 import com.example.myapplication.data.remote.UserApi
 import com.example.myapplication.other.Constants
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -15,9 +17,22 @@ class UserRepository @Inject constructor(
 
     fun insertUser(vararg user: User) = dao.insertUser(*user)
 
-    fun getUserList(): LiveData<PagingData<User>> {
+    fun getUserListRemote(): Observable<List<User>> {
 
-        UserPagingSource(dao, api)
+        var data = emptyList<User>()
+
+        return api.getUserList(1)
+            .subscribeOn(Schedulers.io())
+            .map {
+                if (it.isSuccessful) {
+                    data = it.body()?.data ?: emptyList()
+                }
+
+                return@map data
+            }
+    }
+
+    fun getUserList(): LiveData<PagingData<User>> {
 
         return Pager(
             config = PagingConfig(Constants.PAGING_SIZE),

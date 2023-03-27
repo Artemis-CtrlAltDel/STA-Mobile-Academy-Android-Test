@@ -1,7 +1,6 @@
 package com.example.myapplication.presentation.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.databinding.FragmentListBinding
-import com.example.myapplication.other.Resource
 import com.example.myapplication.presentation.ui.adapters.UserListAdapter
 import com.example.myapplication.presentation.viewmodels.SharedViewModel
 
@@ -33,16 +31,13 @@ class ListFragment : Fragment() {
         _binding = FragmentListBinding.inflate(layoutInflater, container, false)
 
         adapter = UserListAdapter { image, name, userId ->
-
-            val extras = FragmentNavigatorExtras(
-                Pair(image, "image_trans_to"),
-                Pair(name, "name_trans_to")
-            )
-
             Navigation.findNavController(binding.root)
                 .navigate(
                     ListFragmentDirections.actionListFragmentToDetailsFragment(userId),
-                    extras
+                    FragmentNavigatorExtras(
+                        Pair(image, "image_trans_to"),
+                        Pair(name, "name_trans_to")
+                    )
                 )
         }
 
