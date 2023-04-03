@@ -21,8 +21,10 @@ class UserRepository @Inject constructor(
 
         var data = emptyList<User>()
 
-        return api.getUserList(1)
-            .subscribeOn(Schedulers.io())
+        return Observable.merge(
+            api.getUserList(1),
+            api.getUserList(2)
+        ).subscribeOn(Schedulers.io())
             .map {
                 if (it.isSuccessful) {
                     data = it.body()?.data ?: emptyList()

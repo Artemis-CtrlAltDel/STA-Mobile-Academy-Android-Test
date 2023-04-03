@@ -23,6 +23,10 @@ class SharedViewModel @Inject constructor(
         private val compositeDisposable = CompositeDisposable()
     }
 
+    init {
+        getUserListRemote()
+    }
+
     /** data sharing **/
 
     var userDetails = MutableLiveData<User>(null)
@@ -37,13 +41,15 @@ class SharedViewModel @Inject constructor(
         userDetails.value = repository.getUser(id)
     }
 
-    private fun getUserListRemote() =
-        repository.getUserListRemote()
+    private fun getUserListRemote() {
+        val disposable = repository.getUserListRemote()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
                 repository.insertUser(*result.toTypedArray())
-                Log.d(TAG, "getUserListRemote: $result")
             }) { error -> Log.d(TAG, "getUserListRemote: $error") }
+
+        compositeDisposable.add(disposable)
+    }
 
     fun insertUser(user: User) = repository.insertUser(user)
     fun deleteUser(vararg user: User) = repository.deleteUser(*user)

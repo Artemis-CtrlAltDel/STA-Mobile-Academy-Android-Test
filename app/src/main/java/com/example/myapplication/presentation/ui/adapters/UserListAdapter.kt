@@ -72,6 +72,6 @@ class UserListAdapter(
     override fun onBindViewHolder(holder: UserListAdapter.ViewHolder, position: Int) {
         getItem(position)?.let {
             holder.bind(it)
-        } ?: run { holder.bind(diff.currentList[position]) }
+        }
     }
 }
